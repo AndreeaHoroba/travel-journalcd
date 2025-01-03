@@ -11,6 +11,10 @@ const CreateEntry = () => {
   const [image, setImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false); 
   const navigate = useNavigate();
+  const [tags, setTags] = useState([]);
+  const [rating, setRating] = useState(0); // New state for rating
+  const [favorite, setFavorite] = useState(false); // New state for favorite
+
 
   const handleImageUpload = async () => {
     if (!image) return null;
@@ -37,7 +41,12 @@ const CreateEntry = () => {
         title,
         description,
         imageURL: imageURL || null,
+        tags, // Include the tags array here
         timestamp: new Date(),
+        location: { lat: 34.0522, lng: -118.2437 }, // New field for location
+        rating: rating, // Save the rating
+        favorite: favorite, // Save the favorite status
+
       });
 
       alert('Entry successfully added!');
@@ -79,6 +88,29 @@ const CreateEntry = () => {
             className="image-preview"
           />
         )}
+         <input
+          type="text"
+          placeholder="Tags (comma-separated)"
+          onChange={(e) => setTags(e.target.value.split(',').map(tag => tag.trim()))}
+        />
+          <input
+          type="number"
+          placeholder="Rating (1-5)"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+          min="1"
+          max="5"
+        />
+        <label>
+          Favorite:
+          <input
+            type="checkbox"
+            checked={favorite}
+            onChange={() => setFavorite(!favorite)}
+          />
+        </label>
+        <button type="submit">Save Entry</button>
+        <button type="button" onClick={() => navigate('/dashboard')}></button>
         <button type="submit" disabled={isUploading}>
           {isUploading ? 'Uploading...' : 'Save Entry'}
         </button>
