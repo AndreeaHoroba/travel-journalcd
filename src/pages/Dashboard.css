@@ -1,0 +1,74 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap');
+
+
+/* global.css */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  
+}
+
+/* CreateEntry.css */
+body {
+  background-image: url('/public/travell.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px; /* PE ORICE PAGINA NOUA PUI ASTA */
+  height: 100vh;
+}
+
+.dashboard-content {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.entries-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.entry-card {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  width: 300px;
+}
+
+.entry-card:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.entry-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Dashboard.css */
+
+.dashboard-title {
+  font-size: 36px;  /* Adjust the font size as needed */
+  font-weight: bold; /* Make the title bold */
+  text-align: center; /* Center the title */
+  margin-bottom: 20px; /* Add some space below the title */
+  color: darkblue; /* Change color if desired */
+  font-family: "DM Serif Text", serif;
+}
+.dm-serif-text-regular-italic {
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: italic;
+}

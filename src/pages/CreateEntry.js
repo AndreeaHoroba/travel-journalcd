@@ -2,8 +2,8 @@ import { addDoc, collection } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { db, storage } from '../firebase-config';
 import './CreateEntry.css';
-import { db, storage } from './firebase-config';
 
 const CreateEntry = () => {
   const [title, setTitle] = useState('');
@@ -12,8 +12,8 @@ const CreateEntry = () => {
   const [isUploading, setIsUploading] = useState(false); 
   const navigate = useNavigate();
   const [tags, setTags] = useState([]);
-  const [rating, setRating] = useState(0); // New state for rating
-  const [favorite, setFavorite] = useState(false); // New state for favorite
+  const [rating, setRating] = useState(0); 
+  const [favorite, setFavorite] = useState(false); 
 
 
   const handleImageUpload = async () => {
@@ -34,18 +34,18 @@ const CreateEntry = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsUploading(true); // Show uploading state
+    setIsUploading(true); 
     try {
       const imageURL = await handleImageUpload();
       await addDoc(collection(db, 'travel-journalcd'), {
         title,
         description,
         imageURL: imageURL || null,
-        tags, // Include the tags array here
+        tags, 
         timestamp: new Date(),
-        location: { lat: 34.0522, lng: -118.2437 }, // New field for location
-        rating: rating, // Save the rating
-        favorite: favorite, // Save the favorite status
+        location: { lat: 34.0522, lng: -118.2437 }, 
+        rating: rating, 
+        favorite: favorite, 
 
       });
 
@@ -55,7 +55,7 @@ const CreateEntry = () => {
       console.error('Error adding document: ', error);
       alert('Failed to add the entry. Please try again.');
     } finally {
-      setIsUploading(false); // Reset upload state
+      setIsUploading(false); 
     }
   };
 
@@ -109,12 +109,11 @@ const CreateEntry = () => {
             onChange={() => setFavorite(!favorite)}
           />
         </label>
-        <button type="submit">Save Entry</button>
-        <button type="button" onClick={() => navigate('/dashboard')}></button>
         <button type="submit" disabled={isUploading}>
-          {isUploading ? 'Uploading...' : 'Save Entry'}
-        </button>
-        <button type="button" onClick={() => navigate('/dashboard')}>
+  {isUploading ? 'Uploading...' : 'Save Entry'}
+</button>
+
+<button type="button" onClick={() => navigate('/dashboard')}>
           Cancel
         </button>
       </form>

@@ -1,17 +1,17 @@
 import React, { useContext, useEffect } from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
-import { AuthContext } from './AuthContext';
-import CreateEntry from './CreateEntry';
-import Dashboard from './Dashboard';
-import EntryDetail from './EntryDetail'; // Import the new component
-import Login from './Login';
+import { AuthContext } from './auth/AuthContext';
+import Login from './auth/Login';
+import EditEntry from './components/EditEntry';
+import CreateEntry from './pages/CreateEntry';
+import Dashboard from './pages/Dashboard';
+import EntryDetail from './pages/EntryDetail';
 
 
 function App() {
   const { user } = useContext(AuthContext);
 
-  // UseEffect to handle redirects after login
   useEffect(() => {
     if (user) {
       <Navigate to="/dashboard" />;
@@ -29,7 +29,7 @@ function App() {
               <Routes>
                 {/* If user is logged in, redirect to Dashboard */}
                 <Route
-                  path="/"
+                  index
                   element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
                 />
                 {/* Login Route */}
@@ -38,9 +38,11 @@ function App() {
                 <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
                 {/* Create Entry Route */}
                 <Route path="/create-entry" element={user ? <CreateEntry /> : <Navigate to="/login" />} />
-                <Route path="/entry/:entryId" element={<EntryDetail />} /> {/* Dynamic route */}
+                <Route path="/entry/:entryId" element={<EntryDetail />} /> 
                 <Route path="/add-entry" element={<CreateEntry />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/edit/:entryId" element={<EditEntry />} />
+
 
 
               </Routes>

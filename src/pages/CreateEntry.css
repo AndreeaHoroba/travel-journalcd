@@ -1,0 +1,72 @@
+body {
+  background-image: url('/public/fundall.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.create-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.create-entry-form {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.create-entry-form input,
+.create-entry-form textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.create-entry-form button {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-entry-form button[type='submit'] {
+  background-color: #42609c;
+  color: white;
+}
+
+.create-entry-form button[type='submit']:hover {
+  background-color: #324a76;
+}
+
+.create-entry-form button[type='button'] {
+  background-color: #ccc;
+  color: black;
+}
+
+.create-entry-form button[type='button']:hover {
+  background-color: #aaa;
+}

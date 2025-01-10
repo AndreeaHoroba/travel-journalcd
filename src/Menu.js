@@ -7,7 +7,7 @@ const Menu = ({ onSearch }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    onSearch(searchTag); // Pass the search term to the parent component
+    onSearch(searchTag); 
   };
 
   return (

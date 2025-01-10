@@ -2,9 +2,20 @@ import { signOut } from "firebase/auth";
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DashboardMap from '../components/DashboardMap';
+import MenuBar from "../components/MenuBar";
+import { auth, db } from '../firebase-config';
 import './Dashboard.css';
-import DashboardMap from './DashboardMap'; // Import the map component
-import { auth, db } from './firebase-config';
+
+const imageMapping = {
+  '0NGzyBB0W9XYowo8Iljq': '/japan.jpg',    
+  'BnXU9zjjXBuz8ERQ8qME': '/madeira.jpg', 
+  'EQZyHJZpyyHB7sybdeem': '/lefkada.jpeg', 
+  'I2wfkaI2i4UbIpivDQbc': '/bucale.jpeg', 
+  'leUo11JRQdNs90b6qoic': '/london.jpg', 
+  'mfk8GLoNqa4EPRf0JnAR': '/rome.jpg',
+  'zM77As6lHhtV11gDV9eK': '/nyc.jpg',
+};
 
 const Dashboard = () => {
   const [entries, setEntries] = useState([]);
@@ -12,17 +23,18 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
+  // Fetch entries from Firestore
   useEffect(() => {
     const fetchEntries = async () => {
       try {
         const entriesCollection = collection(db, 'travel-journalcd');
         const entriesSnapshot = await getDocs(entriesCollection);
         const entriesList = entriesSnapshot.docs.map(doc => ({
-          id: doc.id, // Store the document ID
+          id: doc.id, 
           ...doc.data(),
         }));
         setEntries(entriesList);
-        setFilteredEntries(entriesList); // Initialize filtered entries
+        setFilteredEntries(entriesList); // Initially display all entries
       } catch (error) {
         console.error("Error fetching entries: ", error);
         alert("Error fetching entries. Please try again later.");
@@ -32,15 +44,17 @@ const Dashboard = () => {
     fetchEntries();
   }, []);
 
+  // Handle search input change and filter entries by tag
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
     const filtered = entries.filter((entry) =>
       entry.tags?.some((tag) => tag.toLowerCase().includes(term))
     );
-    setFilteredEntries(filtered.length > 0 ? filtered : []);
+    setFilteredEntries(filtered.length > 0 ? filtered : []);  // Show filtered entries
   };
 
+  // Handle user logout
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -54,27 +68,9 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Menu Bar */}
-      <div className="menu-bar">
-        <div className="menu-item" onClick={() => navigate('/create-entry')}>
-          Add New Entry
-        </div>
-        <div className="menu-item" onClick={handleLogout}>
-          Logout
-        </div>
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search by tag"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </div>
-      </div>
-
-      {/* Main Content */}
+      <MenuBar onSearch={handleSearch} />  {/* Pass handleSearch as prop to MenuBar */}
       <div className="dashboard-content">
-        <h2>Your Travel Journal</h2>
+        <h2 className="dashboard-title">Your Travel Journal</h2>
         <DashboardMap entries={filteredEntries} />
 
         {filteredEntries.length > 0 ? (
@@ -83,20 +79,31 @@ const Dashboard = () => {
               <div
                 key={entry.id}
                 className="entry-card"
-                onClick={() => navigate(`/entry/${entry.id}`)} // Navigate to EntryDetail with ID
                 style={{ cursor: 'pointer' }}
+                onClick={() => navigate(`/entry/${entry.id}`)}  // Redirect to EntryDetail on click
               >
                 <h3>{entry.title}</h3>
-                {entry.imageURL && (
+                {imageMapping[entry.id] ? (
                   <img
-                    src={entry.imageURL}
-                    alt="entry"
+                    src={imageMapping[entry.id]}
+                    alt={entry.title}
                     className="entry-image"
                   />
+                ) : (
+                  <p>No image available</p>
                 )}
                 <p>Tags: {Array.isArray(entry.tags) ? entry.tags.join(', ') : 'No tags'}</p>
                 <p>Rating: {entry.rating}</p>
                 <p>{entry.favorite ? '❤️ Favorite' : '💔 Not Favorite'}</p>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();  // Prevent the entry click event from triggering
+                    navigate(`/edit/${entry.id}`);  // Redirect to edit page
+                  }}
+                >
+                  Edit
+                </button>
               </div>
             ))}
           </div>
