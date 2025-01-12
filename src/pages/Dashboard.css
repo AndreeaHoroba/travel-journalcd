@@ -13,7 +13,7 @@ body, html {
 
 /* CreateEntry.css */
 body {
-  background-image: url('/public/travell.jpg');
+  background-image: url('/public/fundal100.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -23,7 +23,7 @@ body {
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  padding-top: 50px; /* PE ORICE PAGINA NOUA PUI ASTA */
+  padding-top: 50px;
   height: 100vh;
 }
 
@@ -60,11 +60,11 @@ body {
 /* Dashboard.css */
 
 .dashboard-title {
-  font-size: 46px;  /* Adjust the font size as needed */
-  font-weight: bold; /* Make the title bold */
-  text-align: center; /* Center the title */
-  margin-bottom: 30px; /* Add some space below the title */
-  color: #a7289c; /* Change color if desired */
+  font-size: 60px;  
+  font-weight: bold;
+  text-align: center; 
+  margin-bottom: 30px; 
+  color: #f5f5f5; 
   font-family: "DM Serif Text", serif;
 }
 .dm-serif-text-regular-italic {

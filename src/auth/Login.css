@@ -21,11 +21,12 @@ body {
   }
   
   /* Title */
-  .container > .title {
-    font-size: 70px;
+  .login-title{
+    font-size: 50px;
     font-weight: bold;
     margin-bottom: 20px;
-    color: #333;
+    color: #e7e7e7;
+    text-align: center;
   }
   
   /* Input fields */

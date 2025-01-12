@@ -12,6 +12,9 @@ body {
   justify-content: center;
   min-height: 100vh;
   padding: 20px;
+  font-size: 30px;
+  padding-top: 50px;
+  background-color: transparent;
 }
 
 .create-entry-form {
@@ -54,12 +57,12 @@ body {
 }
 
 .create-entry-form button[type='submit'] {
-  background-color: #a7289c;
+  background-color: #204c8d;
   color: white;
 }
 
 .create-entry-form button[type='submit']:hover {
-  background-color:#a7289c;
+  background-color:#5ab6e1;
 }
 
 .create-entry-form button[type='button'] {

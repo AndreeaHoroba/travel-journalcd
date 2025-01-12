@@ -1,6 +1,7 @@
 .wishlist-container {
     background-color: rgba(255, 255, 255, 0.9);
-    padding: 300px;
+    padding: 80px;
+    padding-top: 80px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
@@ -20,7 +21,7 @@
   
   .wishlist-form input {
     padding: 10px;
-    font-size: 16px;
+    font-size: 25px;
     border: 1px solid #ccc;
     border-radius: 5px;
   }
@@ -28,7 +29,7 @@
   .wishlist-form button {
     padding: 10px;
     font-size: 16px;
-    background-color: #a7289c;
+    background-color: #204c8d;
     color: white;
     border: none;
     border-radius: 5px;
@@ -36,7 +37,7 @@
   }
   
   .wishlist-form button:hover {
-    background-color: #324a76;
+    background-color: #5ab6e1;
   }
   
   .wishlist-list {
@@ -59,7 +60,7 @@
   .wishlist-item button {
     margin-top: 10px;
     padding: 10px;
-    background-color: #a7289c;
+    background-color: #3c6be0;
     color: white;
     border: none;
     border-radius: 5px;
@@ -67,6 +68,6 @@
   }
   
   .wishlist-item button:hover {
-    background-color: #a7289c;
+    background-color:#5ab6e1;
   }
   
