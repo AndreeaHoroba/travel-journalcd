@@ -34,8 +34,12 @@ const DropdownMenu = () => {
               <div className="submenu-link" onClick={() => nav('/create-entry')}>Add Trip</div>
             </div>
             <div className="submenu-item">
+              <div className="submenu-link" onClick={() => nav('/wishlist')}>Wishlist</div>
+            </div>
+            <div className="submenu-item">
               <div className="submenu-link" onClick={handleLogout}>Logout</div>
             </div>
+            
           </div>
         </div>
       </div>

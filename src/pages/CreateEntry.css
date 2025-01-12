@@ -54,12 +54,12 @@ body {
 }
 
 .create-entry-form button[type='submit'] {
-  background-color: #42609c;
+  background-color: #a7289c;
   color: white;
 }
 
 .create-entry-form button[type='submit']:hover {
-  background-color: #324a76;
+  background-color:#a7289c;
 }
 
 .create-entry-form button[type='button'] {

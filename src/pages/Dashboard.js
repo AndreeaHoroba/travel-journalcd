@@ -15,6 +15,7 @@ const imageMapping = {
   'leUo11JRQdNs90b6qoic': '/london.jpg', 
   'mfk8GLoNqa4EPRf0JnAR': '/rome.jpg',
   'zM77As6lHhtV11gDV9eK': '/nyc.jpg',
+  'af8izeE7kr46Ew78x2pK': '/hawaii.jpg'
 };
 
 const Dashboard = () => {
@@ -23,7 +24,6 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
-  // Fetch entries from Firestore
   useEffect(() => {
     const fetchEntries = async () => {
       try {
@@ -34,7 +34,7 @@ const Dashboard = () => {
           ...doc.data(),
         }));
         setEntries(entriesList);
-        setFilteredEntries(entriesList); // Initially display all entries
+        setFilteredEntries(entriesList); 
       } catch (error) {
         console.error("Error fetching entries: ", error);
         alert("Error fetching entries. Please try again later.");
@@ -44,17 +44,16 @@ const Dashboard = () => {
     fetchEntries();
   }, []);
 
-  // Handle search input change and filter entries by tag
+
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
     const filtered = entries.filter((entry) =>
       entry.tags?.some((tag) => tag.toLowerCase().includes(term))
     );
-    setFilteredEntries(filtered.length > 0 ? filtered : []);  // Show filtered entries
+    setFilteredEntries(filtered.length > 0 ? filtered : []);
   };
 
-  // Handle user logout
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -68,7 +67,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <MenuBar onSearch={handleSearch} />  {/* Pass handleSearch as prop to MenuBar */}
+      <MenuBar onSearch={handleSearch} /> 
       <div className="dashboard-content">
         <h2 className="dashboard-title">Your Travel Journal</h2>
         <DashboardMap entries={filteredEntries} />
@@ -80,7 +79,7 @@ const Dashboard = () => {
                 key={entry.id}
                 className="entry-card"
                 style={{ cursor: 'pointer' }}
-                onClick={() => navigate(`/entry/${entry.id}`)}  // Redirect to EntryDetail on click
+                onClick={() => navigate(`/entry/${entry.id}`)}  
               >
                 <h3>{entry.title}</h3>
                 {imageMapping[entry.id] ? (
@@ -98,8 +97,8 @@ const Dashboard = () => {
 
                 <button
                   onClick={(e) => {
-                    e.stopPropagation();  // Prevent the entry click event from triggering
-                    navigate(`/edit/${entry.id}`);  // Redirect to edit page
+                    e.stopPropagation();  
+                    navigate(`/edit/${entry.id}`);  
                   }}
                 >
                   Edit

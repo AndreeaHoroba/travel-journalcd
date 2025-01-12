@@ -7,6 +7,8 @@ import EditEntry from './components/EditEntry';
 import CreateEntry from './pages/CreateEntry';
 import Dashboard from './pages/Dashboard';
 import EntryDetail from './pages/EntryDetail';
+import WishlistPage from './pages/WishlistPage';
+
 
 
 function App() {
@@ -42,6 +44,8 @@ function App() {
                 <Route path="/add-entry" element={<CreateEntry />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/edit/:entryId" element={<EditEntry />} />
+                <Route path="/wishlist" element={<WishlistPage />} />
+
 
 
 

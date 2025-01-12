@@ -60,11 +60,11 @@ body {
 /* Dashboard.css */
 
 .dashboard-title {
-  font-size: 36px;  /* Adjust the font size as needed */
+  font-size: 46px;  /* Adjust the font size as needed */
   font-weight: bold; /* Make the title bold */
   text-align: center; /* Center the title */
-  margin-bottom: 20px; /* Add some space below the title */
-  color: darkblue; /* Change color if desired */
+  margin-bottom: 30px; /* Add some space below the title */
+  color: #a7289c; /* Change color if desired */
   font-family: "DM Serif Text", serif;
 }
 .dm-serif-text-regular-italic {

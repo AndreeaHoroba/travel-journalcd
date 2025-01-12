@@ -13,6 +13,7 @@ const imageMapping = {
   'leUo11JRQdNs90b6qoic': '/london.jpg', 
   'mfk8GLoNqa4EPRf0JnAR': '/rome.jpg',
   'zM77As6lHhtV11gDV9eK': '/nyc.jpg',
+  'af8izeE7kr46Ew78x2pK': '/hawaii.jpg'
 
 
 };
