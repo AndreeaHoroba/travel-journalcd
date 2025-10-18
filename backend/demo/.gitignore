@@ -19,6 +19,15 @@ target/
 *.iml
 *.ipr
 
+# Node
+node_modules/
+
+# OS files
+.DS_Store
+
+# Sensitive properties
+application.properties
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
