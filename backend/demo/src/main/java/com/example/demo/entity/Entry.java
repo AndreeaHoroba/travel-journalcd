@@ -19,6 +19,7 @@ public class Entry {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(columnDefinition = "LONGTEXT") // suport pentru imagini Base64 mari
     private String imageUrl;
 
     private String tags;  // Comma-separated tags (e.g. "beach,adventure")
@@ -26,5 +27,9 @@ public class Entry {
     private double rating;
 
     private boolean favorite;
-}
 
+    // ✅ NEW — geographic coordinates for map markers
+    private Double lat;
+
+    private Double lng;
+}

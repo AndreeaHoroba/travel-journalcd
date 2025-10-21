@@ -1,36 +1,61 @@
-/* New style for the text container */
-.text-container {
-  background-color: white; /* White background for the text container */
-  border-radius: 8px; /* Optional: rounded corners for a smoother look */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for depth */
-  display: inline-block; /* Ensure the container only takes up as much space as necessary */
-  width: 100%; /* Full width to make it larger */
-  padding-top: 200px;
-  margin-top: 250px; /* Start lower on the page */
+.entry-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+  background: linear-gradient(to bottom right, #e3f2fd, #f9f9f9);
+  min-height: 100vh;
 }
 
-/* Entry detail container */
-.entry-detail {
-  padding-top: 100px;
-  max-width: 800px;
-  margin: 0 auto;
+.entry-detail-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.entry-title {
+  color: #2c3e50;
+  margin-bottom: 20px;
   text-align: center;
-  padding-bottom: 50px; /* Add extra padding at the bottom for better spacing */
 }
 
-.entry-detail img {
+.entry-image {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
-  margin: 20px 0;
-  background-color: hotpink;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-.entry-detail h1 {
-  color: darkblue;
-}
-
-.entry-detail p {
+.entry-description {
   font-size: 18px;
   line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.entry-info {
+  font-size: 16px;
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.back-button {
+  align-self: flex-start;
+  background: #42609c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.back-button:hover {
+  background: #324a76;
 }

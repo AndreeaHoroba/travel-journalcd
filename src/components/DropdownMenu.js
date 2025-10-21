@@ -1,5 +1,4 @@
 import { getAuth, signOut } from 'firebase/auth';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DropdownMenu.css';
 

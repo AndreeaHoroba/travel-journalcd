@@ -1,73 +1,83 @@
-import { addDoc, collection, doc, getDocs, updateDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../firebase-config';
 import './WishlistPage.css';
 
 const WishlistPage = () => {
   const [wishlist, setWishlist] = useState([]);
   const [newDestination, setNewDestination] = useState('');
   const [newTags, setNewTags] = useState('');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
+  // ✅ Fetch wishlist from backend
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        const wishlistCollection = collection(db, 'wishlist');
-        const wishlistSnapshot = await getDocs(wishlistCollection);
-        const wishlistList = wishlistSnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setWishlist(wishlistList);
+        const response = await fetch('http://localhost:8080/api/wishlist');
+        if (!response.ok) throw new Error('Failed to fetch wishlist');
+        const data = await response.json();
+        setWishlist(data);
       } catch (error) {
-        console.error("Error fetching wishlist: ", error);
-        alert("Error fetching wishlist. Please try again later.");
+        console.error('Error fetching wishlist:', error);
+        alert('Error fetching wishlist. Please try again later.');
       }
     };
 
     fetchWishlist();
   }, []);
 
+  // ✅ Add a new destination
   const addDestination = async () => {
     if (!newDestination) {
-      alert("Please enter a destination.");
+      alert('Please enter a destination.');
       return;
     }
 
+    const tagsArray = newTags.split(',').map(tag => tag.trim());
+    const newItem = {
+      name: newDestination,
+      visited: false,
+      tags: tagsArray.join(','), // store as a single string for simplicity
+      linkedEntry: null,
+    };
+
     try {
-      const tagsArray = newTags.split(',').map(tag => tag.trim());
-      const docRef = await addDoc(collection(db, 'wishlist'), {
-        name: newDestination,
-        visited: false,
-        tags: tagsArray,
-        linkedEntry: null,
+      const response = await fetch('http://localhost:8080/api/wishlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newItem),
       });
-      setWishlist([...wishlist, { id: docRef.id, name: newDestination, visited: false, tags: tagsArray, linkedEntry: null }]);
+
+      if (!response.ok) throw new Error('Failed to add destination');
+      const savedItem = await response.json();
+
+      setWishlist([...wishlist, savedItem]);
       setNewDestination('');
       setNewTags('');
     } catch (error) {
-      console.error("Error adding destination: ", error);
-      alert("Error adding destination. Please try again.");
+      console.error('Error adding destination:', error);
+      alert('Error adding destination. Please try again.');
     }
   };
 
+  // ✅ Mark as visited
   const markAsVisited = async (id) => {
     try {
-      const wishlistDoc = doc(db, 'wishlist', id);
-  
-      await updateDoc(wishlistDoc, { visited: true });  
-  
-      setWishlist(wishlist.map(item => 
+      const response = await fetch(`http://localhost:8080/api/wishlist/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ visited: true }),
+      });
+
+      if (!response.ok) throw new Error('Failed to update destination');
+
+      setWishlist(wishlist.map(item =>
         item.id === id ? { ...item, visited: true } : item
       ));
-  
     } catch (error) {
-      console.error("Error updating destination: ", error);
-      alert("Error updating destination. Please try again.");
+      console.error('Error updating destination:', error);
+      alert('Error updating destination. Please try again.');
     }
   };
-  
 
   return (
     <div className="wishlist-container">
@@ -93,11 +103,15 @@ const WishlistPage = () => {
         />
         <button onClick={addDestination}>Add to Wishlist</button>
       </div>
+
       <div className="wishlist-list">
         {wishlist.map(item => (
-          <div key={item.id} className={`wishlist-item ${item.visited ? 'visited' : ''}`}>
+          <div
+            key={item.id}
+            className={`wishlist-item ${item.visited ? 'visited' : ''}`}
+          >
             <h3>{item.name}</h3>
-            <p>Tags: {item.tags.join(', ')}</p>
+            <p>Tags: {item.tags || 'No tags'}</p>
             <p>Status: {item.visited ? 'Visited' : 'Not Visited'}</p>
             {!item.visited && (
               <button onClick={() => markAsVisited(item.id)}>Mark as Visited</button>

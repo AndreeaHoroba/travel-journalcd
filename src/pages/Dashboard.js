@@ -1,18 +1,17 @@
 import { signOut } from "firebase/auth";
-import { collection, getDocs } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardMap from '../components/DashboardMap';
 import MenuBar from "../components/MenuBar";
-import { auth, db } from '../firebase-config';
+import { auth } from '../firebase-config';
 import './Dashboard.css';
 
 const imageMapping = {
-  '0NGzyBB0W9XYowo8Iljq': '/japan.jpg',    
-  'BnXU9zjjXBuz8ERQ8qME': '/madeira.jpg', 
-  'EQZyHJZpyyHB7sybdeem': '/lefkada.jpeg', 
-  'I2wfkaI2i4UbIpivDQbc': '/bucale.jpeg', 
-  'leUo11JRQdNs90b6qoic': '/london.jpg', 
+  '0NGzyBB0W9XYowo8Iljq': '/japan.jpg',
+  'BnXU9zjjXBuz8ERQ8qME': '/madeira.jpg',
+  'EQZyHJZpyyHB7sybdeem': '/lefkada.jpeg',
+  'I2wfkaI2i4UbIpivDQbc': '/bucale.jpeg',
+  'leUo11JRQdNs90b6qoic': '/london.jpg',
   'mfk8GLoNqa4EPRf0JnAR': '/rome.jpg',
   'zM77As6lHhtV11gDV9eK': '/nyc.jpg',
   'af8izeE7kr46Ew78x2pK': '/hawaii.jpg'
@@ -21,37 +20,49 @@ const imageMapping = {
 const Dashboard = () => {
   const [entries, setEntries] = useState([]);
   const [filteredEntries, setFilteredEntries] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchEntries = async () => {
-      try {
-        const entriesCollection = collection(db, 'travel-journalcd');
-        const entriesSnapshot = await getDocs(entriesCollection);
-        const entriesList = entriesSnapshot.docs.map(doc => ({
-          id: doc.id, 
-          ...doc.data(),
-        }));
-        setEntries(entriesList);
-        setFilteredEntries(entriesList); 
-      } catch (error) {
-        console.error("Error fetching entries: ", error);
-        alert("Error fetching entries. Please try again later.");
-      }
-    };
-
     fetchEntries();
   }, []);
 
+  const fetchEntries = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/entries');
+      const data = await response.json();
+      setEntries(data);
+      setFilteredEntries(data);
+    } catch (error) {
+      console.error("Error fetching entries:", error);
+    }
+  };
 
-  const handleSearch = (e) => {
-    const term = e.target.value.toLowerCase();
-    setSearchTerm(term);
-    const filtered = entries.filter((entry) =>
-      entry.tags?.some((tag) => tag.toLowerCase().includes(term))
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this entry?")) return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/entries/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) throw new Error('Failed to delete entry');
+
+      setEntries((prev) => prev.filter((entry) => entry.id !== id));
+      setFilteredEntries((prev) => prev.filter((entry) => entry.id !== id));
+
+      alert("Entry deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting entry:", error);
+      alert("Failed to delete entry.");
+    }
+  };
+
+  const handleSearch = (term) => {
+    const lowerCaseTerm = term.toLowerCase();
+    const filtered = entries.filter(entry =>
+      entry.tags?.toLowerCase().includes(lowerCaseTerm)
     );
-    setFilteredEntries(filtered.length > 0 ? filtered : []);
+    setFilteredEntries(filtered);
   };
 
   const handleLogout = async () => {
@@ -60,14 +71,14 @@ const Dashboard = () => {
       alert("Logged out successfully!");
       navigate("/login");
     } catch (error) {
-      console.error("Error logging out: ", error);
+      console.error("Error logging out:", error);
       alert("Error logging out. Please try again.");
     }
   };
 
   return (
     <div className="dashboard-container">
-      <MenuBar onSearch={handleSearch} /> 
+      <MenuBar onSearch={handleSearch} />
       <div className="dashboard-content">
         <h2 className="dashboard-title">Your Travel Journal</h2>
         <DashboardMap entries={filteredEntries} />
@@ -79,30 +90,38 @@ const Dashboard = () => {
                 key={entry.id}
                 className="entry-card"
                 style={{ cursor: 'pointer' }}
-                onClick={() => navigate(`/entry/${entry.id}`)}  
+                onClick={() => navigate(`/entry/${entry.id}`)}
               >
                 <h3>{entry.title}</h3>
-                {imageMapping[entry.id] ? (
-                  <img
-                    src={imageMapping[entry.id]}
-                    alt={entry.title}
-                    className="entry-image"
-                  />
-                ) : (
-                  <p>No image available</p>
-                )}
-                <p>Tags: {Array.isArray(entry.tags) ? entry.tags.join(', ') : 'No tags'}</p>
+                <img
+                  src={imageMapping[entry.id] || entry.imageUrl || '/default.jpg'}
+                  alt={entry.title}
+                  className="entry-image"
+                />
+                <p>Tags: {entry.tags || 'No tags'}</p>
                 <p>Rating: {entry.rating}</p>
                 <p>{entry.favorite ? '❤️ Favorite' : '💔 Not Favorite'}</p>
 
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();  
-                    navigate(`/edit/${entry.id}`);  
-                  }}
-                >
-                  Edit
-                </button>
+                <div className="entry-actions">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/edit/${entry.id}`);
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(entry.id);
+                    }}
+                    className="delete-btn"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           </div>

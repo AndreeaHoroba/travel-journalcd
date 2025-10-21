@@ -1,39 +1,23 @@
-import { doc, getDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { db } from '../firebase-config';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import './EntryDetail.css';
-
-// Image mapping constant
-const imageMapping = {
-  '0NGzyBB0W9XYowo8Iljq': '/japan.jpg',    
-  'BnXU9zjjXBuz8ERQ8qME': '/madeira.jpg', 
-  'EQZyHJZpyyHB7sybdeem': '/lefkada.jpeg', 
-  'I2wfkaI2i4UbIpivDQbc': '/bucale.jpeg', 
-  'leUo11JRQdNs90b6qoic': '/london.jpg', 
-  'mfk8GLoNqa4EPRf0JnAR': '/rome.jpg',
-  'zM77As6lHhtV11gDV9eK': '/nyc.jpg',
-  'af8izeE7kr46Ew78x2pK': '/hawaii.jpg'
-
-
-};
 
 const EntryDetail = () => {
   const { entryId } = useParams();
   const [entry, setEntry] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEntry = async () => {
       try {
-        const docRef = doc(db, 'travel-journalcd', entryId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setEntry({ id: entryId, ...docSnap.data() });
-        } else {
-          console.log('No such document!');
+        const response = await fetch(`http://localhost:8080/api/entries/${entryId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch entry details');
         }
+        const data = await response.json();
+        setEntry(data);
       } catch (error) {
-        console.error('Error fetching entry:', error);
+        console.error('❌ Error fetching entry:', error);
       }
     };
 
@@ -41,39 +25,49 @@ const EntryDetail = () => {
   }, [entryId]);
 
   if (!entry) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
+  // ✅ Încearcă să detecteze dacă imaginea e:
+  // - un Base64 string (din Firebase sau altă sursă)
+  // - sau un link HTTP generat de Spring Boot (ex: http://localhost:8080/uploads/...).
+  const getImageSrc = (url) => {
+    if (!url) return '/default.jpg'; // fallback dacă nu există
+    if (url.startsWith('data:image')) return url;
+    if (url.startsWith('http')) return url;
+    return `http://localhost:8080${url}`; // fallback relativ (ex: /uploads/image.jpg)
+  };
+
   return (
-    <div style={{ padding: '80px', maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
-      <div style={{
-        backgroundColor: 'white',
-        padding: '50px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        display: 'inline-block',
-        textAlign: 'left',
-        width: '100%',
-        marginTop: '800px'
-      }}>
-        <h1 style={{ color: 'darkblue', marginBottom: '20px' }}>{entry.title}</h1>
-        <img
-          src={imageMapping[entry.id] || '/images/default.jpg'}
-          alt={entry.title}
-          style={{
-            width: '100%',
-            maxHeight: '400px',
-            objectFit: 'cover',
-            marginBottom: '20px'
-          }}
-        />
-        <p style={{
-          fontSize: '18px',
-          lineHeight: '1.8',
-          marginBottom: '20px',
-        }}>
-          {entry.description}
-        </p>
+    <div className="entry-detail-container">
+      {/* 🔙 Buton de întoarcere */}
+      <button className="back-button" onClick={() => navigate('/dashboard')}>
+        ← Back to Dashboard
+      </button>
+
+      <div className="entry-detail-card">
+        <h1 className="entry-title">{entry.title}</h1>
+
+        {/* 🖼️ Afișarea imaginii */}
+        {entry.imageUrl ? (
+          <img
+            src={getImageSrc(entry.imageUrl)}
+            alt={entry.title}
+            className="entry-image"
+          />
+        ) : (
+          <div className="no-image">No image available</div>
+        )}
+
+        {/* 📄 Descriere */}
+        <p className="entry-description">{entry.description}</p>
+
+        {/* ℹ️ Info adițională */}
+        <div className="entry-info">
+          <p><strong>Tags:</strong> {entry.tags || 'No tags'}</p>
+          <p><strong>Rating:</strong> {entry.rating || 'N/A'}</p>
+          <p><strong>Favorite:</strong> {entry.favorite ? '❤️ Yes' : '💔 No'}</p>
+        </div>
       </div>
     </div>
   );

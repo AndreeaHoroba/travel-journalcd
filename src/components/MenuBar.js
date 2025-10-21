@@ -1,14 +1,14 @@
-import { React, useState } from 'react';
+import { useState } from 'react';
 import DropdownMenu from './DropdownMenu';
 import './MenuBar.css';
 
-const MenuBar = ({onSearch}) => {
-const [searchTag, setSearchTag] = useState('');
+const MenuBar = ({ onSearch }) => {
+  const [searchTag, setSearchTag] = useState('');
 
-const handleSearch = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
     onSearch(searchTag); 
-    };
+  };
 
   return (
     <div className="menu-bar">
