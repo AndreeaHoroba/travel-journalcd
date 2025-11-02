@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Entry;
 import com.example.demo.repository.EntryRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class EntryController {
         return entryRepository.findAll();
     }
 
+
+
     // ✅ Get entry by ID
     @GetMapping("/{id}")
     public ResponseEntity<Entry> getEntryById(@PathVariable Long id) {
@@ -33,15 +36,12 @@ public class EntryController {
 
     // ✅ Create new entry (with location)
     @PostMapping
-    public ResponseEntity<Entry> createEntry(@RequestBody Entry entry) {
-        try {
-            Entry savedEntry = entryRepository.save(entry);
-            return ResponseEntity.ok(savedEntry);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
+    public Entry createEntry(@RequestBody Entry entry) {
+        // ✅ For now: userId comes from frontend
+        return entryRepository.save(entry);
     }
+
+
 
     // ✅ Update an existing entry (including coordinates)
     @PutMapping("/{id}")

@@ -56,3 +56,17 @@ body {
   .search-bar button:active {
     background-color: #2c5f97;
   } 
+  .logout-button {
+  background: #d13f3f;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-left: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.logout-button:hover {
+  background: #a33131;
+}

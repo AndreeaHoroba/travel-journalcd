@@ -1,59 +1,33 @@
-import React, { useContext, useEffect } from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
-import { AuthContext } from './auth/AuthContext';
-import Login from './auth/Login';
+
 import EditEntry from './components/EditEntry';
+import BookingsPage from './pages/BookingsPage';
 import CreateEntry from './pages/CreateEntry';
 import Dashboard from './pages/Dashboard';
 import EntryDetail from './pages/EntryDetail';
+import ExpensesPage from './pages/ExpensesPage';
+import RecommendationsPage from './pages/RecommendationsPage';
 import WishlistPage from './pages/WishlistPage';
 
-
-
 function App() {
-  const { user } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (user) {
-      <Navigate to="/dashboard" />;
-    }
-  }, [user]);
-
   return (
     <Router>
-      {/* <div className="App">
-        <header className="App-header">
-          <img src="/planet-earth-9324.png" className="App-logo" alt="logo" />
-          
-          <div className="login-container">
-            <div className="login-box"> */}
-              <Routes>
-                {/* If user is logged in, redirect to Dashboard */}
-                <Route
-                  index
-                  element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
-                />
-                {/* Login Route */}
-                <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
-                {/* Dashboard Route */}
-                <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
-                {/* Create Entry Route */}
-                <Route path="/create-entry" element={user ? <CreateEntry /> : <Navigate to="/login" />} />
-                <Route path="/entry/:entryId" element={<EntryDetail />} /> 
-                <Route path="/add-entry" element={<CreateEntry />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/edit/:entryId" element={<EditEntry />} />
-                <Route path="/wishlist" element={<WishlistPage />} />
+      <Routes>
+        {/* Default route */}
+        <Route path="/" element={<Dashboard />} />
 
+        {/* Pages */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/create-entry" element={<CreateEntry />} />
+        <Route path="/edit/:entryId" element={<EditEntry />} />
+        <Route path="/entry/:entryId" element={<EntryDetail />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path="/recommendations" element={<RecommendationsPage />} />
+        <Route path="/bookings" element={<BookingsPage />} />
+        <Route path="/expenses" element={<ExpensesPage />} />
 
-
-
-              </Routes>
-            {/* </div>
-          </div>
-        </header>
-      </div> */}
+      </Routes>
     </Router>
   );
 }

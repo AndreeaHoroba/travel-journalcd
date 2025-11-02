@@ -79,6 +79,25 @@ const WishlistPage = () => {
     }
   };
 
+  // ✅ Delete destination
+  const deleteDestination = async (id) => {
+    if (!window.confirm('Are you sure you want to remove this destination?')) return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/wishlist/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) throw new Error('Failed to delete destination');
+
+      // remove from local list
+      setWishlist(wishlist.filter(item => item.id !== id));
+    } catch (error) {
+      console.error('Error deleting destination:', error);
+      alert('Error deleting destination. Please try again.');
+    }
+  };
+
   return (
     <div className="wishlist-container">
       <h2>Your Wishlist</h2>
@@ -113,9 +132,23 @@ const WishlistPage = () => {
             <h3>{item.name}</h3>
             <p>Tags: {item.tags || 'No tags'}</p>
             <p>Status: {item.visited ? 'Visited' : 'Not Visited'}</p>
-            {!item.visited && (
-              <button onClick={() => markAsVisited(item.id)}>Mark as Visited</button>
-            )}
+
+            <div className="wishlist-actions">
+              {!item.visited && (
+                <button
+                  className="mark-visited-btn"
+                  onClick={() => markAsVisited(item.id)}
+                >
+                  ✅ Mark as Visited
+                </button>
+              )}
+              <button
+                className="delete-btn"
+                onClick={() => deleteDestination(item.id)}
+              >
+                🗑 Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>

@@ -1,3 +1,4 @@
+/* 🧭 Main layout */
 .entry-detail-container {
   display: flex;
   flex-direction: column;
@@ -7,6 +8,7 @@
   min-height: 100vh;
 }
 
+/* 📘 Entry card */
 .entry-detail-card {
   background: white;
   border-radius: 12px;
@@ -14,12 +16,15 @@
   padding: 40px;
   width: 100%;
   max-width: 700px;
+  margin-bottom: 40px;
 }
 
 .entry-title {
   color: #2c3e50;
   margin-bottom: 20px;
   text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 .entry-image {
@@ -30,10 +35,20 @@
   margin-bottom: 20px;
 }
 
+.no-image {
+  background: #ececec;
+  color: #777;
+  padding: 60px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
 .entry-description {
   font-size: 18px;
   line-height: 1.6;
   margin-bottom: 25px;
+  color: #333;
 }
 
 .entry-info {
@@ -44,18 +59,152 @@
   gap: 8px;
 }
 
+/* 🔙 Back button */
 .back-button {
-  align-self: flex-start;
+  position: fixed;            /* îl fixează în colțul ferestrei */
+  top: 20px;                  /* puțin mai jos de marginea superioară */
+  left: 20px;                 /* lipit de marginea stângă */
   background: #42609c;
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+  border-radius: 50%;         /* face butonul rotund */
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;              /* mereu deasupra cardului sau imaginii */
 }
 
 .back-button:hover {
   background: #324a76;
+  transform: translateY(-2px);
+}
+
+
+
+
+/* 🎯 Activities section */
+.activities-section {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.activities-section h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* ➕ Add activity button */
+.toggle-form-btn {
+  display: inline-block;
+  background: #2a72ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+  margin-bottom: 15px;
+}
+
+.toggle-form-btn:hover {
+  background: #1a5ad7;
+}
+
+/* 📝 Add activity form */
+.activity-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.activity-form input,
+.activity-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 100%;
+}
+
+.save-activity-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+.save-activity-btn:hover {
+  background: #3e8e41;
+}
+
+/* 📋 Activity list */
+.activity-list {
+  margin-top: 10px;
+}
+
+.activity-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.activity-card h3 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+}
+
+.activity-card p {
+  margin: 4px 0;
+  font-size: 15px;
+  color: #444;
+}
+
+/* 🗑 Delete button */
+.delete-btn {
+  margin-top: 8px;
+  background: #ff5f5f;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.delete-btn:hover {
+  background: #e04b4b;
+}
+
+/* ⏳ Loading text */
+.loading {
+  color: #2c3e50;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 50px;
 }

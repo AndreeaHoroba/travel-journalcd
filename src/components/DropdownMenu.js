@@ -38,6 +38,16 @@ const DropdownMenu = () => {
             <div className="submenu-item">
               <div className="submenu-link" onClick={handleLogout}>Logout</div>
             </div>
+            <div className="submenu-item">
+              <div className="submenu-link" onClick={() => nav('/recommendations')}>Recommendations</div>
+            </div>
+            <div className="submenu-item">
+              <div className="submenu-link" onClick={() => nav('/bookings')}>Bookings</div>
+            </div>
+            <div className="submenu-item">
+              <div className="submenu-link" onClick={() => nav('/expenses')}>Expenses</div>
+            </div>
+            
             
           </div>
         </div>

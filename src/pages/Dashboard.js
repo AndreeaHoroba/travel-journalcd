@@ -6,17 +6,6 @@ import MenuBar from "../components/MenuBar";
 import { auth } from '../firebase-config';
 import './Dashboard.css';
 
-const imageMapping = {
-  '0NGzyBB0W9XYowo8Iljq': '/japan.jpg',
-  'BnXU9zjjXBuz8ERQ8qME': '/madeira.jpg',
-  'EQZyHJZpyyHB7sybdeem': '/lefkada.jpeg',
-  'I2wfkaI2i4UbIpivDQbc': '/bucale.jpeg',
-  'leUo11JRQdNs90b6qoic': '/london.jpg',
-  'mfk8GLoNqa4EPRf0JnAR': '/rome.jpg',
-  'zM77As6lHhtV11gDV9eK': '/nyc.jpg',
-  'af8izeE7kr46Ew78x2pK': '/hawaii.jpg'
-};
-
 const Dashboard = () => {
   const [entries, setEntries] = useState([]);
   const [filteredEntries, setFilteredEntries] = useState([]);
@@ -94,7 +83,7 @@ const Dashboard = () => {
               >
                 <h3>{entry.title}</h3>
                 <img
-                  src={imageMapping[entry.id] || entry.imageUrl || '/default.jpg'}
+                //  src={imageMapping[entry.id] || entry.imageUrl || '/default.jpg'}
                   alt={entry.title}
                   className="entry-image"
                 />

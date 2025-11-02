@@ -70,4 +70,38 @@
   .wishlist-item button:hover {
     background-color:#5ab6e1;
   }
+  .wishlist-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.mark-visited-btn {
+  background-color: #43a047;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.mark-visited-btn:hover {
+  background-color: #2e7d32;
+}
+
+.delete-btn {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #b71c1c;
+}
+
   

@@ -15,6 +15,9 @@ public class Entry {
     private Long id;
 
     private String title;
+    @Column(nullable = false)
+    private Long userId;
+
 
     @Column(columnDefinition = "TEXT")
     private String description;
